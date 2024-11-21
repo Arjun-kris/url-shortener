@@ -1,4 +1,4 @@
-# url-shortener
+# URL Shortener
 
 This is a Django-based web application for shrinking URLs, developed as part of a project task. It allows users to enter long URLs and receive shortened links, making it easier to share them across different platforms. 
 
