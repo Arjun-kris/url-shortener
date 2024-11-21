@@ -1,0 +1,36 @@
+{% extends 'layout/app-layout.html'%}
+{% block 'content' %}
+    <div class="container bg-white my-4 p-4 rounded">
+        <div class="mb-5 bg-pr">
+            <h1 class="display-1 text-center mb-4">About us</h1>
+            {% if user.is_staff %}
+                <a class="btn btn-outline-dark mb-3" href="{% url 'admin:index' %}">Admin Panel</a>
+            {% endif %}
+            <div class="mb-4">
+                <h3>About App</h3>
+                <p>This is a Django project used for url shrinking task. This project was made as the part of my project. This application allows users to input long URLs and receive a shorter link in return. This application simplifies sharing of web links, making it easier to distribute URLs across different platforms.</p>
+            </div>
+            <div class="mb-4">
+                <h3>Project Info</h3>
+                <p>This project was made by R Arjun Krishna as the part of Django project task.</p>
+            </div>
+            <div class="mb-4">
+                <h3>Working</h3>
+                <ul>
+                    <li>Enter the <b>URL</b> which should be shorten and Enter a <b>title</b> which will be the title for the data that is stored in database.</li>
+                    <li>Click the <b>Submit</b> button.</li>
+                    <li>The <b>Shorten URL</b> will be appeared.</li>
+                    <li>Click the <b>Reset</b> button to shorten another URL.</li>
+                    <li>For viewing saved urls, click on <b>Dashboard</b> on navigation bar.</li>
+                    <li>Only 5 urls will be stored in Database. For deleting the url in database, use <b>Delete</b> button and <b>Edit</b> button can be used to edit the stored data.</li>
+                    <li>The <b>Search</b> option is used to search for a particular url.</li>
+                    <li>To logout, click on the <b>Profile</b> option on navigation bar.</li>
+                </ul>
+            </div>
+            <div class="mb-4">
+                <h3>Django</h3>
+                <p>Django is a popular web framework for building high-quality web applications in Python. It is a high-level Python web framework that encourages rapid development and clean, pragmatic design. Built by experienced developers, it takes care of much of the hassle of web development, so you can focus on writing your app without needing to reinvent the wheel. It's free and open source. Django takes care of the difficult stuff so that you can concentrate on building your web applications.</p>
+            </div>
+        </div> 
+    </div>
+{% endblock %}

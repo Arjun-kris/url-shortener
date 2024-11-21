@@ -1,0 +1,47 @@
+# Python bytecode and cache files
+*.pyc
+*.pyo
+__pycache__/
+
+# Environment variables and settings
+.env
+*.env
+
+# Django specific
+db.sqlite3
+*.log
+media/
+staticfiles/
+static/
+
+# Virtual environment
+venv/
+.env/
+env/
+
+# IDE and editor specific
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# MacOS specific
+.DS_Store
+
+# Coverage reports
+htmlcov/
+.coverage
+*.cover
+.coverage.*
+
+# Migrations
+*/migrations/*.pyc
+*/migrations/*.py
+
+# Test results
+*.xml
+
+# Other
+*.bak
+*.tmp
+*.old

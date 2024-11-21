@@ -1,0 +1,121 @@
+{% extends 'layout/app-layout.html' %}
+{% block 'content' %}
+<div class="container bg-white p-4 rounded my-4">
+    <div class="mb-4">
+        <h1 class="display-1 text-center">Dashboard</h1>
+    </div> 
+    <h2 class="mb-3">Your Links</h2>
+    <form id="search-form" class="d-flex justify-content-between mb-3">
+        <input type="text" id="search-query" class="form-control bg-light me-3" placeholder="Search by title or URL" />
+        <button type="submit" class="btn btn-outline-secondary">Search</button>
+    </form>
+
+    <div id="record-results">
+        {% for record in page_obj.object_list %}
+            <div class="card w-100 mt-3 mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                        <h5 class="card-title text-black fs-3">{{ record.title }}</h5>
+                        <p class="text-black fs-5">{{ record.time }}</p>
+                    </div>
+                    <p class="card-text text-black mb-1 fs-5">Original Link: <a href="{{ record.link }}" target="_blank"><i>{{ record.link }}</i></a></p>
+                    <p class="card-title text-black mb-1 fs-5">Short Link: <a href="{{ record.short_url }}" target="_blank"><i>{{ record.short_url }}</i></a></p>
+                    <div class="d-flex justify-content-end mt-4">
+                        <a class="btn btn-outline-secondary me-2" href="{% url 'edit_record' record.user.username record.id %}">Edit</a>
+                        <a class="btn btn-outline-danger" href="javascript:void(0);" onclick="deleteRecord('{{ record.id }}')">Delete</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                        <span>&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                        <span>&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#search-form').on('submit', function(e) {
+            e.preventDefault();
+            var query = $('#search-query').val(); 
+            $.ajax({
+                url: "{% url 'dashboard' %}",
+                data: {
+                    'query': query
+                },
+                success: function(data) {
+                    $('#record-results').empty();
+    
+                    if (data.records.length > 0) {
+                        data.records.forEach(function(record) {
+                            $('#record-results').append(
+                                '<div class="card w-100 mt-3 mb-3">' +
+                                    '<div class="card-body">' +
+                                        '<div class="d-flex justify-content-between mb-3">' +
+                                            '<h5 class="card-title text-black fs-3">' + record.title + '</h5>' +
+                                            '<p class="text-black fs-5">' + record.time + '</p>' +
+                                        '</div>' +
+                                        '<p class="card-text text-black mb-1 fs-5">Original Link: <a href="' + record.link + '" target="_blank"><i>' +  record.link + '</i></a></p>' +
+                                        '<p class="card-title text-black mb-1 fs-5">Short Link: <a href="' + record.shortlink + '" target="_blank"><i>' + record.shortlink + '</i></a></p>' +
+                                    '</div>' +
+                                '</div>'
+                            );
+                        });
+                    } else {
+                        $('#record-results').html('<p>No records found.</p>');
+                    }
+                }
+            });
+        });
+    });
+    </script>
+    <script>
+        function deleteRecord(id) {
+            if (confirm("Are you sure you want to delete this record?")) {
+                $.ajax({
+                    url: "/delete/" + id + "/",
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            $('#record-' + id).remove();
+                            alert("Record deleted successfully.");
+                            location.reload(); 
+                        } else {
+                            alert("An error occurred.");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert("An error occurred while deleting the record.");
+                    }
+                });
+            }
+        }
+    </script>
+    
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'layout/home-layout.html'%}
+{% block 'content1' %}
+<h1 class="display-1 text-center text-light mt-5">Welcome to URL Shortener</h1>
+<div class="container col-ls-6">
+    <div class="container col-md-6 bg-white mt-5 p-4 rounded">
+        <div class="mb-2">
+            <h1 class="text-center mb-5">Signup</h1>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" class="btn btn-outline-dark" value="Submit">
+            </form>
+            <p class="text-dark text-center">Already have an account? <a class="text-secondary" href="{% url 'login' %}">Login here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

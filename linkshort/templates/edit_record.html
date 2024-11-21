@@ -1,0 +1,43 @@
+{% extends 'layout/app-layout.html' %}
+
+{% block 'content' %}
+<div class="container bg-white p-4 rounded my-4">
+    <h1 class="display-3 text-center mb-5">Edit Record</h1>
+    
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.title.label_tag }}
+            {{ form.title }}
+            {% if form.title.errors %}
+                <div class="text-danger">
+                    {{ form.title.errors }}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-3">
+            {{ form.link.label_tag }} 
+            {{ form.link }}
+            {% if form.link.errors %}
+                <div class="text-danger">
+                    {{ form.link.errors }}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-3">
+            {{ form.shortlink.label_tag }}
+            {{ form.shortlink }}
+            {% if form.shortlink.errors %}
+                <div class="text-danger">
+                    {{ form.shortlink.errors }}
+                </div>
+            {% endif %}
+        </div>
+        
+        <button type="submit" class="btn btn-outline-dark">Save Changes</button>
+        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'layout/app-layout.html'%}
+{% block 'content' %}
+<div class="container bg-white my-4 p-4 rounded">
+  <div class="mb-5">
+    <h1 class="display-1 text-center">URL Shortener</h1>
+    <p class="text-center">A website for URL shortening</p>
+  </div>
+  <div class="mb-4">
+    <h2 class="display-5 text-start">Hi {{ username }},</h2>
+  </div>
+  <div class="mb-3">
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ form.original_url }}
+      {{ form.title }}
+      
+      {% if urltext %}
+      <div class="container text-center">
+        <button type="submit" class="btn btn-secondary w-25 disabled" name="submitbutton"><i class="bi bi-arrow-right"></i></button>
+      </div>
+      <div class="mt-5">
+        <p class="display-5 text-center">
+          {{ urltext }}<a href="{{ short_url|escape }}" target="_blank">{{ short_url|escape }}</a>
+        </p>
+      </div>
+      <div class="container text-center mt-5">
+        <button type="submit" class="text-center btn btn-secondary w-25" name="resetbutton">Reset</button>
+      </div>
+
+      {% else %}
+      <div class="container text-center">
+        <button type="submit" class="btn btn-secondary w-25" name="submitbutton"><i class="bi bi-arrow-right"></i></button>
+      </div>
+      {% endif %}
+    </form>
+  </div>
+</div>
+{% endblock %}
